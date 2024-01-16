@@ -1,15 +1,40 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState } from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import FlexelTableComponent from '../FlexelTab/FlexelTableComponent';
 
-const MyTabs = (props) => {
-  const {fields,data}=props;
+const MyTabs = ({ fields, data, flexialData, hierarchy, units, dictionaries }) => {
   const [value, setValue] = useState(0);
   const handleChange = (event, newValue) => {
+    if (newValue === 1) {
+      window.Synopsis.init({
+        appid: "synopsisTab",
+        type: "widget", // widget designer
+        hierarchy: hierarchy,
+        data: data,
+        flexialData: flexialData,
+        dictionaries: dictionaries,
+        fields: fields,
+        units: units,
+        styleFormats: {},
+        formats: {
+          dateFormat: "MM/DD/YYYY",
+          decimalNotation: "X",
+          currencyFormat: "X",
+          negNumFormat: "",
+        },
+        options: {
+          showDownloadButton: true,
+          showUserViews: true,
+          showFilters: true,
+          showUserSettings: true,
+          showFullScreenButton: false,
+        },
+      });
+      window.Synopsis.render();
+    }
     setValue(newValue);
-    window.Synopsis.render();
   };
 
   return (
@@ -19,13 +44,14 @@ const MyTabs = (props) => {
         <Tab label="SynopsisTab" />
       </Tabs>
       <TabPanel value={value} index={0}>
-        <FlexelTableComponent 
-         fields={fields}
-         data={data}
-         />
+        <FlexelTableComponent
+          fields={fields}
+          data={flexialData}
+        />
       </TabPanel>
-      <TabPanel value={value} index={1}>
+      <TabPanel value={value} index={1} id='synopsisTab' style={{ height: "calc(100vh - 48px)" }}>
         {/* Render your Synopsis component when SynopsisTab is selected */}
+
       </TabPanel>
     </Box>
   );
@@ -41,7 +67,15 @@ const TabPanel = ({ children, value, index, ...other }) => {
       aria-labelledby={`tab-${index}`}
       {...other}
     >
-      {value === index && <Box p={3}>{children}</Box>}
+      {value === index &&
+        <Box
+          style={{
+            overflow: "scroll",
+            height: "calc(100vh - 64px)",
+            width: "calc(100vw - 16px)",
+          }}
+          p={1}
+        >{children}</Box>}
     </div>
   );
 };
