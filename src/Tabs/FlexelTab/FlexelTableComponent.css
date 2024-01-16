@@ -1,0 +1,31 @@
+.flexelTableContainer {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+.flexelTableContainer .th {
+  font-size: 13px;
+  text-wrap: nowrap;
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 4px;
+  min-width: 60px;
+}
+.flexelTableContainer .td {
+  font-size: 12px;
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 4px;
+  width: 100%;
+}
+.flexelTableContainer .td input {
+  width: calc(100% - 8px);
+  /* width: 100%; */
+
+}
+
+/* td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 4px;
+  } */

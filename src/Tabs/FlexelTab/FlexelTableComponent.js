@@ -1,33 +1,29 @@
 import React, { useState } from "react";
-import './index.css'
+import './FlexelTableComponent.css'
 
-const FlexelTableComponent = (props) => {
-  const { fields, data } = props;
+const FlexelTableComponent = ({ fields, data, onUpdate }) => {
+
+  const [fData, setFdata] = useState(JSON.parse(JSON.stringify(data)));
+  const handleInputChange = (e, rowIndex, colIndex) => {
+    const { value } = e.target;
+    fData[rowIndex][colIndex] = parseFloat(value);
+    setFdata([...fData]);
+  };
+
   const [editableCell, setEditableCell] = useState(null);
 
   const handleDoubleClick = (rowIndex, colIndex, cellValue) => {
-    setEditableCell({ rowIndex, colIndex, value: cellValue });
-  };
-
-  const handleInputChange = (e) => {
-    const { value } = e.target;
-    setEditableCell((prev) => ({ ...prev, value }));
+    if(editableCell?.flag) onUpdate(fData);
+    setEditableCell({ rowIndex, colIndex, value: cellValue,flag: true });
   };
 
   const handleInputKeyDown = (e) => {
     if (e.key === "Enter") {
-      saveChanges();
+      onUpdate(fData);
+      setEditableCell(null);
     } else if (e.key === "Escape") {
       cancelEditing();
     }
-  };
-
-  const saveChanges = () => {
-    const { rowIndex, colIndex, value } = editableCell;
-    const updatedData = [...data];
-    updatedData[rowIndex][colIndex] = value;
-    setEditableCell(null);
-  //  props.onEdit(updatedData);
   };
 
   const cancelEditing = () => {
@@ -46,30 +42,36 @@ const FlexelTableComponent = (props) => {
           </tr>
         </thead>
         <tbody>
-          {data &&
-            data.map((record, rowIndex) => (
+          {fData &&
+            fData.map((row, rowIndex) => (
               <tr key={rowIndex}>
-                {record.map((cell, colIndex) => (
+                {row.map((cell, colIndex) => (
                   <td
-                  className="td"
+                    className="td"
                     key={colIndex}
                     onDoubleClick={() => handleDoubleClick(rowIndex, colIndex, cell)}
                   >
                     {editableCell &&
-                    editableCell.rowIndex === rowIndex &&
-                    editableCell.colIndex === colIndex ? (
+                      editableCell.rowIndex === rowIndex &&
+                      editableCell.colIndex === colIndex ? (
                       <input
                         type="text"
                         name={`editable-${rowIndex}-${colIndex}`}
-                        value={editableCell.value}
-                        onChange={handleInputChange}
+                        value={cell}
+                        onChange={(e) => handleInputChange(e, rowIndex, colIndex)}
+                        on
                         onKeyDown={handleInputKeyDown}
-                        onBlur={cancelEditing}
+                        // onBlur={cancelEditing}
                         autoFocus
                       />
                     ) : (
                       cell
                     )}
+                    {/* <input
+                      value={cell}
+                      onChange={(e) => handleInputChange(e, rowIndex, colIndex)}
+                    /> */}
+                    {/* {cell} */}
                   </td>
                 ))}
               </tr>

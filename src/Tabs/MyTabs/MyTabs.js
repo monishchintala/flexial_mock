@@ -6,6 +6,8 @@ import FlexelTableComponent from '../FlexelTab/FlexelTableComponent';
 
 const MyTabs = ({ fields, data, flexialData, hierarchy, units, dictionaries }) => {
   const [value, setValue] = useState(0);
+  const [fData, setFdata] = useState(flexialData);
+
   const handleChange = (event, newValue) => {
     if (newValue === 1) {
       window.Synopsis.init({
@@ -13,7 +15,7 @@ const MyTabs = ({ fields, data, flexialData, hierarchy, units, dictionaries }) =
         type: "widget", // widget designer
         hierarchy: hierarchy,
         data: data,
-        flexialData: flexialData,
+        flexialData: fData,
         dictionaries: dictionaries,
         fields: fields,
         units: units,
@@ -37,6 +39,10 @@ const MyTabs = ({ fields, data, flexialData, hierarchy, units, dictionaries }) =
     setValue(newValue);
   };
 
+  const onUpdate = (value) => {
+    setFdata(value);
+  }
+
   return (
     <Box>
       <Tabs value={value} onChange={handleChange}>
@@ -46,7 +52,8 @@ const MyTabs = ({ fields, data, flexialData, hierarchy, units, dictionaries }) =
       <TabPanel value={value} index={0}>
         <FlexelTableComponent
           fields={fields}
-          data={flexialData}
+          data={fData}
+          onUpdate={onUpdate}
         />
       </TabPanel>
       <TabPanel value={value} index={1} id='synopsisTab' style={{ height: "calc(100vh - 48px)" }}>
