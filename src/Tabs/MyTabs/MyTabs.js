@@ -4,6 +4,11 @@ import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import FlexelTableComponent from '../FlexelTab/FlexelTableComponent';
 
+// stmtdsgnr files
+
+import config from '../../mock/config.json';
+
+
 const MyTabs = ({ fields, data, flexialData, hierarchy, units, dictionaries }) => {
   const [value, setValue] = useState(0);
   const [fData, setFdata] = useState(flexialData);
@@ -35,6 +40,9 @@ const MyTabs = ({ fields, data, flexialData, hierarchy, units, dictionaries }) =
         },
       });
       window.Synopsis.render();
+    } else if (newValue === 2) {
+      window.stmntDsgnrConfig.init({ configData: config, appid: "statementDesignerTab" });
+      window.stmntDsgnrConfig.render();
     }
     setValue(newValue);
   };
@@ -48,6 +56,7 @@ const MyTabs = ({ fields, data, flexialData, hierarchy, units, dictionaries }) =
       <Tabs value={value} onChange={handleChange}>
         <Tab label="FlexelTab" />
         <Tab label="SynopsisTab" />
+        {/* <Tab label="StatementDesignerTab" /> */}
       </Tabs>
       <TabPanel value={value} index={0}>
         <FlexelTableComponent
@@ -60,6 +69,10 @@ const MyTabs = ({ fields, data, flexialData, hierarchy, units, dictionaries }) =
         {/* Render your Synopsis component when SynopsisTab is selected */}
 
       </TabPanel>
+      {/* <TabPanel value={value} index={2} id='statementDesignerTab' style={{ height: "calc(100vh - 48px)" }}>
+        
+
+      </TabPanel> */}
     </Box>
   );
 };
