@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import $ from "jquery";
 import MyTabs from "./Tabs/MyTabs/MyTabs";
-import "./Synopsis/js/synopsis";
-import "./Synopsis/css/synopsis.css"
+// import "./Synopsis/js/synopsis";
+// import "./Synopsis/css/synopsis.css"
 import _dictionaries from "./mock/dictionaries.json"
 
 let isDataFetched = false;
