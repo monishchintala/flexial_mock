@@ -10,6 +10,8 @@
 /src/statement
 /src/Synopsis
 
+package-lock.json
+
 # production
 /build
 
